@@ -1,0 +1,291 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "A-Technologies Assignment For Dotnet Developer",
+    "description": "This API allows managing blocked countries and validating IP addresses \r\n                        using external GeoLocation provider (ipapi.com). \r\n                        It supports permanent and temporary country blocking, IP checking, \r\n                        and logging of blocked access attempts.",
+    "contact": {
+      "name": "Mahmoud Mohamed",
+      "url": "https://github.com/M7-TROJAN/blocked-countries-Api",
+      "email": "mahmoud.abdalaziz@outlook.com"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Countries/block": {
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Permanently blocks a country from accessing the system.",
+        "requestBody": {
+          "description": "Country code and name to block.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockCountryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockCountryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlockCountryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Country blocked successfully."
+          },
+          "400": {
+            "description": "Invalid country data provided."
+          },
+          "409": {
+            "description": "Country already blocked."
+          }
+        }
+      }
+    },
+    "/api/Countries/block/{countryCode}": {
+      "delete": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Unblocks a blocked country.",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "description": "ISO country code.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Country unblocked successfully."
+          },
+          "404": {
+            "description": "Country not found or not blocked."
+          }
+        }
+      }
+    },
+    "/api/Countries/blocked": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Retrieves a paginated list of all blocked countries.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default 1).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Items per page (default 10).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Optional search term for country code or name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the paginated list of blocked countries."
+          },
+          "400": {
+            "description": "Invalid pagination parameters."
+          }
+        }
+      }
+    },
+    "/api/Countries/temporal-block": {
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Temporarily blocks a country for a specific duration (1–1440 minutes).",
+        "requestBody": {
+          "description": "Country data and duration in minutes.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemporalBlockRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemporalBlockRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TemporalBlockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Country blocked temporarily."
+          },
+          "400": {
+            "description": "Invalid input or duration outside allowed range."
+          },
+          "409": {
+            "description": "Country already blocked."
+          }
+        }
+      }
+    },
+    "/api/Ip/lookup": {
+      "get": {
+        "tags": [
+          "Ip"
+        ],
+        "summary": "Looks up geolocation information for a given IP address.",
+        "parameters": [
+          {
+            "name": "ipAddress",
+            "in": "query",
+            "description": "Optional IP address to check. If omitted, the client's IP is used.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns geolocation data."
+          },
+          "400": {
+            "description": "Invalid or missing IP address."
+          },
+          "502": {
+            "description": "Failed to fetch data from the external Geo API."
+          }
+        }
+      }
+    },
+    "/api/Ip/check-block": {
+      "get": {
+        "tags": [
+          "Ip"
+        ],
+        "summary": "Checks whether the caller's country is currently blocked.",
+        "responses": {
+          "200": {
+            "description": "Access allowed for the detected country."
+          },
+          "403": {
+            "description": "Access denied due to country block."
+          },
+          "400": {
+            "description": "Could not determine the client's IP address."
+          },
+          "502": {
+            "description": "Failed to fetch data from the external Geo API."
+          }
+        }
+      }
+    },
+    "/api/Logs/blocked-attempts": {
+      "get": {
+        "tags": [
+          "Logs"
+        ],
+        "summary": "Retrieves a paginated list of all blocked access attempts.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default 1).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Items per page (default 10).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a paginated list of blocked attempts."
+          },
+          "400": {
+            "description": "Invalid pagination parameters."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BlockCountryRequest": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TemporalBlockRequest": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryName": {
+            "type": "string",
+            "nullable": true
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

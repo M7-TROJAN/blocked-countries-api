@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>A-Tecchnologies-Assignment</name>
+    </assembly>
+    <members>
+        <member name="M:A_Tecchnologies_Assignment.Controllers.CountriesController.BlockCountry(A_Tecchnologies_Assignment.DTOs.BlockCountryRequest)">
+            <summary>
+            Permanently blocks a country from accessing the system.
+            </summary>
+            <param name="request">Country code and name to block.</param>
+            <response code="200">Country blocked successfully.</response>
+            <response code="400">Invalid country data provided.</response>
+            <response code="409">Country already blocked.</response>
+        </member>
+        <member name="M:A_Tecchnologies_Assignment.Controllers.CountriesController.UnblockCountry(System.String)">
+            <summary>
+            Unblocks a blocked country.
+            </summary>
+            <param name="countryCode">ISO country code.</param>
+            <response code="200">Country unblocked successfully.</response>
+            <response code="404">Country not found or not blocked.</response>
+        </member>
+        <member name="M:A_Tecchnologies_Assignment.Controllers.CountriesController.GetBlockedCountries(System.Int32,System.Int32,System.String)">
+            <summary>
+            Retrieves a paginated list of all blocked countries.
+            </summary>
+            <param name="page">Page number (default 1).</param>
+            <param name="pageSize">Items per page (default 10).</param>
+            <param name="search">Optional search term for country code or name.</param>
+            <response code="200">Returns the paginated list of blocked countries.</response>
+            <response code="400">Invalid pagination parameters.</response>
+        </member>
+        <member name="M:A_Tecchnologies_Assignment.Controllers.CountriesController.TemporarilyBlockCountry(A_Tecchnologies_Assignment.DTOs.TemporalBlockRequest)">
+            <summary>
+            Temporarily blocks a country for a specific duration (1–1440 minutes).
+            </summary>
+            <param name="request">Country data and duration in minutes.</param>
+            <response code="200">Country blocked temporarily.</response>
+            <response code="400">Invalid input or duration outside allowed range.</response>
+            <response code="409">Country already blocked.</response>
+        </member>
+        <member name="M:A_Tecchnologies_Assignment.Controllers.LogsController.GetBlockedAttempts(System.Int32,System.Int32)">
+            <summary>
+            Retrieves a paginated list of all blocked access attempts.
+            </summary>
+            <param name="page">Page number (default 1).</param>
+            <param name="pageSize">Items per page (default 10).</param>
+            <response code="200">Returns a paginated list of blocked attempts.</response>
+            <response code="400">Invalid pagination parameters.</response>
+        </member>
+        <member name="M:IpController.LookupIp(System.String)">
+            <summary>
+            Looks up geolocation information for a given IP address.
+            </summary>
+            <param name="ipAddress">Optional IP address to check. If omitted, the client's IP is used.</param>
+            <response code="200">Returns geolocation data.</response>
+            <response code="400">Invalid or missing IP address.</response>
+            <response code="502">Failed to fetch data from the external Geo API.</response>
+        </member>
+        <member name="M:IpController.CheckIfBlocked">
+            <summary>
+            Checks whether the caller's country is currently blocked.
+            </summary>
+            <response code="200">Access allowed for the detected country.</response>
+            <response code="403">Access denied due to country block.</response>
+            <response code="400">Could not determine the client's IP address.</response>
+            <response code="502">Failed to fetch data from the external Geo API.</response>
+        </member>
+    </members>
+</doc>
