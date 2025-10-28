@@ -123,7 +123,7 @@ builder.Services.AddOptions<GeoLocationSettings>()
 
 ## Author
 
-**Developed by:** Mahmoud Mohamed
-**Email:** [mahmoud.abdalaziz@outlook.com](mailto:mahmoud.abdalaziz@outlook.com)
-**GitHub:** [M7-TROJAN](https://github.com/M7-TROJAN)
-**LinkedIn:** [Mahmoud Mohamed Abd](https://www.linkedin.com/in/mahmoud-mohamed-abd)
+- **Developed by:** Mahmoud Mohamed
+- **Email:** [mahmoud.abdalaziz@outlook.com](mailto:mahmoud.abdalaziz@outlook.com)
+- **GitHub:** [M7-TROJAN](https://github.com/M7-TROJAN)
+- **LinkedIn:** [Mahmoud Mohamed Abd](https://www.linkedin.com/in/mahmoud-mohamed-abd)
